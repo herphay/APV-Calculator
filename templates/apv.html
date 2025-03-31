@@ -1,11 +1,38 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Summary
+    Calculator
 {% endblock %}
 
 {% block main %}
     <div>
-        <h1>This is the APV calculator page</h1>
+        <h1>APV Calculator</h1>
+        <form action="/apv" method="post">
+            <div class="mb-3 d-flex justify-content-center align-items-center">
+                <select autocomplete="off" class="form-control w-auto me-2" name="anb">
+                    <option disabled selected value="">Age Next Birthday</option>
+                    {% for age in range(100) %}
+                        <option value="{{ age }}">{{ age }}</option>
+                    {% endfor %}
+                </select>
+                <select autocomplete="off" class="form-control w-auto me-2" name="duration">
+                    <option disabled selected value="">Term duration</option>
+                    {% for duration in range(100) %}
+                        <option value="{{ duration + 1 }}">{{ duration + 1 }}</option>
+                    {% endfor %}
+                </select>
+                <select autocomplete="off" class="form-control w-auto me-2" name="year">
+                    <option disabled selected value="">Life Table ref. year</option>
+                    {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+                <input autocomplete="off" autofocus class="form-control w-auto me-2" name="premium" placeholder="Yearly Premium" type="text">
+                <input autocomplete="off" class="form-control w-auto me-2" name="benefit" placeholder="Death Benefit" type="text">
+                <input autocomplete="off" class="form-control w-auto me-2" name="discount" placeholder="Discount Rate" type="text">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
     </div>
+    <div>{{ error_msg }}</div>
 {% endblock %}
