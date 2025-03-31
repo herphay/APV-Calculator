@@ -31,8 +31,6 @@ def main():
     """)
     connection.commit()
 
-
-
     with open('lifetables.csv', mode='r') as file:
         reader = csv.reader(file)
         header = next(reader)
@@ -54,5 +52,36 @@ def main():
     cursor.close()
     connection.close()
 
+def get_available_years():
+    """
+    Return a list of the years with lifetable available
+    """
+    with sqlite3.connect('lifetables.db') as con:
+        res = con.execute('SELECT DISTINCT year FROM lifetables ORDER BY year')
+        return [row[0] for row in res.fetchall()]
+
+def get_life_table(year, sex):
+    """
+    Return life table of a specific year 
+    """
+    with sqlite3.connect('lifetables.db') as con:
+        res = con.execute("""
+                SELECT year,
+                       sex,
+                       age_x,
+                       qx,
+                       lx,
+                       dx,
+                       ex
+                FROM lifetables
+                WHERE year = ?
+                AND sex = ?
+                ORDER BY age_x
+        """, (year, sex))
+        cols = [col[0] for col in res.description]
+        table = [{k:v for k, v in zip(cols, row)} for row in res.fetchall()]
+        return table
+
 if __name__ == '__main__':
-    main()
+    # main()
+    pass

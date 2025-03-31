@@ -81,5 +81,57 @@
         </div>
     </div>
 
+    <div>
+        <form action="/tables" method="post">
+            <div class="mb-3 d-flex justify-content-center align-items-center">
+                <select autocomplete="off" class="form-control w-auto me-2" name="year">
+                    <option disabled selected value="">Year</option>
+                    {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+                <select autocomplete="off" class="form-control w-auto me-2" name="sex">
+                    <option disabled selected value="">Sex</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Total">Total</option>
+                </select>
+                <button class="btn btn-primary" type="submit">Get Life Table</button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        {{ msg }}
+    </div>
+
+    <div class="mb-3 d-flex justify-content-center align-items-center">
+        <table class="table table-bordered" style="width: 80%;">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">year</th>
+                    <th style="width: 10%;">sex</th>
+                    <th style="width: 10%;">age_x</th>
+                    <th style="width: 10%;">qx</th>
+                    <th style="width: 11%;">lx</th>
+                    <th style="width: 10%;">dx</th>
+                    <th style="width: 10%;">ex</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table %}
+                    <tr>
+                        <td>{{ row.year }}</td>
+                        <td>{{ row.sex }}</td>
+                        <td>{{ row.age_x }}</td>
+                        <td>{{ row.qx }}</td>
+                        <td>{{ row.lx }}</td>
+                        <td>{{ row.dx }}</td>
+                        <td>{{ row.ex }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     
 {% endblock %}
