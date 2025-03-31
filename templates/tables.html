@@ -5,7 +5,81 @@
 {% endblock %}
 
 {% block main %}
-    <div>
-        <h1>This is the page that shows Life Tables</h1>
+    <div class="mx-auto text-justify text-center" style="width: 60%;">
+        <h2>What is a life table?</h2>
+        <p>
+            A life table shows what a population can expect in terms of deaths at each age group. Actual death 
+            rate experienced by a population is summarized and used to calculate the probability of death at each 
+            age. From there, we can follow a model population's (usually 100k people born) evolution (in terms of 
+            how many survives to what age) from birth to death, assuming that they are experiencing the same age 
+            specific mortality rates throughout their life. It also includes other information such as the life 
+            expectancies at each age.
+        </p>
+
+        <h2>How is the life table prepared?</h2>
+        <p>
+            In Singapore, the Department of Statistics prepare what is called a complete life table. This just
+            means that the life table have a granularity of individual ages (age interval of 1 year) rather than
+            an abridged life table where the population are grouped into 5 or 10 year age intervals. However, due 
+            to the small population size (~6M), death rate at each specific age for each specific year suffers 
+            from significant random fluctuations. To counteract this and show actual underlying causes and long 
+            term mortality trends, a 3 year average with interpolation method is used. First, central deaths are 
+            group by age 0, 1-4, and each subsequent 5 year age groups (5-9, 10-14 etc.). Then, an average rate is 
+            calculated based on 3 years' death rates (For reference year n, avg. rate is calculated based on rates 
+            of year n-1, n, n+1 with each year's mid-year population. The latest reference year will always be an 
+            estimate based on only n-1 and n). Finally, each age group's average rate is decomposed to individual 
+            age's mortality based on linear interpolation then adjusted with WhittakerHenderson method of graduation
+            to ensure a smooth progression of mortality.
+        </p>
+
+        <p>
+            * Please note that the mortality rates between 2020 to 2023 has been significantly affected by the Covid-19
+            pandemic, especially those of 2021 and 2022. These years' life table will not be representative if we 
+            recover to a pre-pandemic mortality rate. 
+        </p>
+
+        <h2>Explanation of each column in the life table</h2>
+        <div  class="table-responsive d-flex justify-content-center">
+            <table class="table table-bordered" style="width: 80%;">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">Column</th>
+                        <th style="width: 70%;">Explanation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>year</td>
+                        <td>Life table's reference year (daeth data using n-1, n, n+1)</td>
+                    </tr>
+                    <tr>
+                        <td>sex</td>
+                        <td>Total, Male, Female. There are significant differences in each sex's mortality</td>
+                    </tr>
+                    <tr>
+                        <td>age</td>
+                        <td>Exact age x</td>
+                    </tr>
+                    <tr>
+                        <td>qx</td>
+                        <td>Probability of dying between exact age x and x+1</td>
+                    </tr>
+                    <tr>
+                        <td>lx</td>
+                        <td>Number of survivors on exact age x</td>
+                    </tr>
+                    <tr>
+                        <td>dx</td>
+                        <td>Number of deaths between exact age x and x+1</td>
+                    </tr>
+                    <tr>
+                        <td>ex</td>
+                        <td>Life expectancy of a person at exact age x</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    
 {% endblock %}
