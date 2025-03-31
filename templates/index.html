@@ -5,7 +5,84 @@
 {% endblock %}
 
 {% block main %}
-    <div>
-        <h1>This is the summary page</h1>
+    <div class="mx-auto text-justify text-center" style="width: 60%;">
+        <h1>What is the APV Calculator?</h1>
+        <p>
+            The Actuarial Present Value Calculator is a calculator that helps you value your life insurance 
+            plans. This allows you to decide between different life insurance plans offered by the insurers.
+        </p>
+
+        <h2>What is an Actuarual Present Value?</h2>
+        <button class="btn btn-primary ms-2" data-bs-toggle="collapse" data-bs-target="#p1">+</button>
+        <div class="align-items-center" id="p1">
+            <p>
+                Life insurance is valued through what is called the Actuarial Present Value. In short, it is the
+                expected value of the present value of a possible future cash payout(s). The higher the APV, the 
+                more valuable a plan is. Let's break down what this actually means.
+            </p>
+            <p>
+                Let's say you have a whole life insurance that will pay you $1M when you inevitably die, sounds 
+                good for your descendant right? Well not necessarily. When your descendants get this money matters, 
+                as we all experienced from the post pandemic inflation each year the purchasing power of our money
+                decreases. That is why it is important to calculate the present value of future cashflows. The 
+                present value of a future $1M is how much of today's money can buy an equivalent amount of things*. 
+                Let's say you are 30 and just had your first child, you might expect to die 50 years later, and That
+                $1M in 50 years time would only be worth $291k of today's money assuming a consistent 2.5% inflation!
+                That is only 30% of the headline value! Scary right?
+            </p>
+            <p>
+                Well, other than just the adage that a dollar today is worth more than a dollar tomorrow. We can't 
+                know when we will die. A whole life insurance might guarantee a payout, but when you that be? 
+                Hopefully its not tomorrow even if you get to avoid the payout's devaluation through inflation, but 
+                will it be in exactly 50 years? Maybe 60? Or in 20 due to an accident? Life is too unpredictable to 
+                say with any certainty. Furthermore, if you have a term life which terminates at 65 rather than a 
+                whole life which guarantees a payout, how can you be sure you will even see a single cent of that 
+                $1M? 
+            </p>
+            <p>
+                This is where the expected value comes in. We can assume that our own mortality follows that of the 
+                population we are part of. This population's mortality can then tell us our probability of death at 
+                any given age through a life table. In simple terms, if we expect to die in a year with 1% chance, 
+                then that million dollar payout is worth $10k in a year before discounting to the present value. When 
+                we do this for every year the life plan is in effect, then we can get a proper APV and thus a proper 
+                value for our life insurance!
+            </p>
+            <p>
+                * We will be using inflation as our discount factor rather than the more usual risk free rate. As 
+                this is for the general consumer, inflation devaluing the payout is more pertinent.
+            </p>
+            
+        </div>
+        
+
+        <h2>How to compare different life insurance plans?</h2>
+        <p>
+            Establishing the value of a life insurance plan is just 1 part of the equation. A plan might be worth 
+            a lot but if you are paying through the nose for it then the trade off might not be worth it. A simple 
+            metric to be used for comparison is then the value to cost ratio.
+        </p>
+
+        <h2>What are each tabs for?</h2>
+        <button class="btn btn-primary ms-2" data-bs-toggle="collapse" data-bs-target="#p2">+</button>
+        <div class="align-items-center" id="p2">
+            <h3>APV Calculator</h3>
+            <p>
+                This tab is used to input details for the life insurance plans you are interested in. It will then 
+                help you calculate the APV, cost, and value to cost ratio. The results can be addded to the comparison
+                tab as desired.
+            </p>
+
+            <h3>Life Tables</h3>
+            <p>
+                This tab allows you to check the detailed life table statistics from Singapore.
+            </p>
+
+            <h3>Comparison</h3>
+            <p>
+                After the getting the results from the APV Calculator, they can be recorded and the consolidated data 
+                will be shown here for ease of comparison.
+            </p>
+        </div>
+        <div><br><br><br></div>
     </div>
 {% endblock %}

@@ -7,7 +7,8 @@
 {% block main %}
     <div class="mx-auto text-justify text-center" style="width: 60%;">
         <h2>What is a life table?</h2>
-        <p>
+        <button class="btn btn-primary ms-2" data-bs-toggle="collapse" data-bs-target="#p1">+</button>
+        <p id="p1">
             A life table shows what a population can expect in terms of deaths at each age group. Actual death 
             rate experienced by a population is summarized and used to calculate the probability of death at each 
             age. From there, we can follow a model population's (usually 100k people born) evolution (in terms of 
@@ -17,7 +18,8 @@
         </p>
 
         <h2>How is the life table prepared?</h2>
-        <p>
+        <button class="btn btn-primary ms-2" data-bs-toggle="collapse" data-bs-target="#p2">+</button>
+        <p id="p2">
             In Singapore, the Department of Statistics prepare what is called a complete life table. This just
             means that the life table have a granularity of individual ages (age interval of 1 year) rather than
             an abridged life table where the population are grouped into 5 or 10 year age intervals. However, due 
