@@ -19,7 +19,9 @@ def index():
 
 @app.route("/apv")
 def apv():
-    return render_template("apv.html")
+    years = get_available_years()
+    years.sort()
+    return render_template("apv.html", years=years)
 
 @app.route("/tables", methods=['POST', 'GET'])
 def tables():
