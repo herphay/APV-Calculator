@@ -17,10 +17,34 @@ def index():
     
     return render_template("index.html")
 
-@app.route("/apv")
+@app.route("/apv", methods=['GET', 'POST'])
 def apv():
     years = get_available_years()
     years.sort()
+
+    if request.method == 'POST':
+        sex = request.form.get('sex')
+        anb = request.form.get('anb')
+        term = request.form.get('term')
+        year = request.form.get('year')
+        premium = request.form.get('premium')
+        benefit = request.form.get('benefit')
+        discount = request.form.get('discount')
+
+        if sex not in ['Male', 'Female'] or not anb or not term or \
+           not year or not premium or not benefit or not discount:
+            return render_template("apv.html", years=years, error_msg='Missing input')
+        
+        try:
+            anb, term, year = int(anb), int(term), int(year)
+            premium, benefit, discount = float(premium), float(benefit), float(discount)
+        except ValueError:
+            return render_template("apv.html", years=years, error_msg='Except for sex, input should be numbers')
+        
+        table = get_life_table(year, sex)
+
+        return render_template("apv.html", years=years)
+    
     return render_template("apv.html", years=years)
 
 @app.route("/tables", methods=['POST', 'GET'])

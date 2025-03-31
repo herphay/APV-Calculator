@@ -9,13 +9,18 @@
         <h1>APV Calculator</h1>
         <form action="/apv" method="post">
             <div class="mb-3 d-flex justify-content-center align-items-center">
+                <select autocomplete="off" class="form-control w-auto me-2" name="sex">
+                    <option disabled selected value="">Sex</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
                 <select autocomplete="off" class="form-control w-auto me-2" name="anb">
                     <option disabled selected value="">Age Next Birthday</option>
                     {% for age in range(100) %}
                         <option value="{{ age }}">{{ age }}</option>
                     {% endfor %}
                 </select>
-                <select autocomplete="off" class="form-control w-auto me-2" name="duration">
+                <select autocomplete="off" class="form-control w-auto me-2" name="term">
                     <option disabled selected value="">Term duration</option>
                     {% for duration in range(100) %}
                         <option value="{{ duration + 1 }}">{{ duration + 1 }}</option>
