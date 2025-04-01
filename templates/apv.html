@@ -40,4 +40,52 @@
         </form>
     </div>
     <div>{{ error_msg }}</div>
+
+    <div>
+        <h3>Term Life results</h3>
+        <div>Death P is {{ PdT }}</div>
+    </div>
+
+    <div class="mb-3 d-flex justify-content-center align-items-center">
+        <table class="table table-bordered" style="width: 130%;">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">year</th>
+                    <th style="width: 10%;">sex</th>
+                    <th style="width: 10%;">age_x</th>
+                    <th style="width: 10%;">qx</th>
+                    <th style="width: 11%;">lx</th>
+                    <th style="width: 10%;">dx</th>
+                    <th style="width: 10%;">ex</th>
+                    <th style="width: 10%;">P(death: x-x+1)</th>
+                    <th style="width: 10%;">P(live: x-x+1)</th>
+                    <th style="width: 10%;">P(live til x+1)</th>
+                    <th style="width: 10%;">Expected benefit</th>
+                    <th style="width: 11%;">PV(E(benefit))</th>
+                    <th style="width: 10%;">Premium</th>
+                    <th style="width: 10%;">PV(Premium)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table %}
+                    <tr>
+                        <td>{{ row.year }}</td>
+                        <td>{{ row.sex }}</td>
+                        <td>{{ row.age_x }}</td>
+                        <td>{{ row.qx }}</td>
+                        <td>{{ row.lx }}</td>
+                        <td>{{ row.dx }}</td>
+                        <td>{{ row.ex }}</td>
+                        <td>{{ row.Px_death }}</td>
+                        <td>{{ row.Px_survive }}</td>
+                        <td>{{ row.Px1_Cum_survive }}</td>
+                        <td>{{ row.E_benefit }}</td>
+                        <td>{{ row.EPV_benefit }}</td>
+                        <td>{{ row.Premium }}</td>
+                        <td>{{ row.PV_premium }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
