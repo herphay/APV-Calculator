@@ -55,6 +55,21 @@
         </div>
     </div>
 
+    {% if table and val %}
+    <div>
+        <h4>Save this plan for comparison?</h4>
+        <form id="saveplan">
+            <input type="hidden" id="sterm" value="{{ request.form.get('term') }}">
+            <input autocomplete="off" class="form-control w-auto me-2" name="plan_name" placeholder="Plan Name" type="text">
+            <button class="btn btn-primary" type="submit">Save this plan</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <script>
+        input async javascript for saving func call
+    </script>
+
     <div class="mb-3 d-flex justify-content-center align-items-center">
         <table class="table table-bordered" style="width: 130%;">
             <thead>
