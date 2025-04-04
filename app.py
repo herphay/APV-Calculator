@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from helpers import get_available_years, get_life_table
+from helpers import get_available_years, get_life_table, calc_insurance_value
 
 app = Flask(__name__)
 
@@ -49,52 +49,9 @@ def apv():
             except ValueError:
                 return render_template("apv.html", years=years, error_msg='Invalid term duration')
 
-        table = get_life_table(year, sex)
+        table, val = calc_insurance_value(get_life_table(year, sex), anb, term, benefit, discount, premium)
 
-        P_death_total = 0
-        for age in range(len(table)):
-            if table[age]['age_x'] < anb:
-                # If your Age Next Birthday is bigger than the start of age_x
-                # It means you have already survived this age
-                table[age]['Px_death']        = 0.0
-                table[age]['Px_survive']      = 1.0
-                table[age]['Px1_Cum_survive'] = 1.0
-                table[age]['E_benefit']       = 0.0
-                table[age]['EPV_benefit']     = 0.0
-                table[age]['Premium']         = 0.0
-                table[age]['PV_premium']      = 0.0
-            else:
-                # If this is a future age
-                # Px_death is the conditional probability of you dying between age x and x+1
-                # Given that you already survived til age.
-                # So it is = Cumulative probability to survive til age x * P dying between x & x+1
-                table[age]['Px_death']        = table[age-1]['Px1_Cum_survive'] * table[age]['qx']
-                # Your probability of surviving from x to x+1 given survival til x is just the compliment
-                table[age]['Px_survive']      = 1 - table[age]['Px_death']
-                # Your cumulative prob of surviving till x+1 is then Cum_prob_sur til x * surviving x to x+1
-                table[age]['Px1_Cum_survive'] = table[age-1]['Px1_Cum_survive'] * table[age]['Px_survive']
-
-                # When the term life is still active
-                if table[age]['age_x'] < anb + term:
-                    # EV of benefit is the benefit * P of dying between x & x+1
-                    table[age]['E_benefit']   = table[age]['Px_death'] * benefit
-                    # Assume benefit is always paid out End of the Year -> start & die at 24 anb, benefit discount 1 yr
-                    table[age]['EPV_benefit'] = table[age]['E_benefit'] / (1 + discount) ** (table[age]['age_x'] - anb + 1)
-                    table[age]['Premium']     = premium
-                    # premium assumed to be paid Start of Year
-                    table[age]['PV_premium']  = premium / (1 + discount) ** (table[age]['age_x'] - anb)
-                else:
-                    # Life insurance is not active anymore
-                    table[age]['E_benefit']   = 0.0
-                    table[age]['EPV_benefit'] = 0.0
-                    table[age]['Premium']     = 0.0
-                    table[age]['PV_premium']  = 0.0
-
-            P_death_total += table[age]['Px_death']
-        
-        print(P_death_total)
-
-        return render_template("apv.html", years=years, table=table, PdT=P_death_total)
+        return render_template("apv.html", years=years, table=table, val=val)
     
     return render_template("apv.html", years=years)
 

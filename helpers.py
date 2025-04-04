@@ -81,6 +81,51 @@ def get_life_table(year, sex):
         cols = [col[0] for col in res.description]
         table = [{k:v for k, v in zip(cols, row)} for row in res.fetchall()]
         return table
+    
+def calc_insurance_value(table, anb, term, benefit, discount, premium):
+    val = {'apv': 0, 'ppv': 0}
+    for age in range(len(table)):
+        if table[age]['age_x'] < anb:
+            # If your Age Next Birthday is bigger than the start of age_x
+            # It means you have already survived this age
+            table[age]['Px_death']        = 0.0
+            table[age]['Px_survive']      = 1.0
+            table[age]['Px1_Cum_survive'] = 1.0
+            table[age]['E_benefit']       = 0.0
+            table[age]['EPV_benefit']     = 0.0
+            table[age]['Premium']         = 0.0
+            table[age]['PV_premium']      = 0.0
+        else:
+            # If this is a future age
+            # Px_death is the conditional probability of you dying between age x and x+1 given you live til anb
+            # Given that you already survived til age anb.
+            # So it is = Cumulative probability to survive til age x * P dying between x & x+1
+            table[age]['Px_death']        = table[age-1]['Px1_Cum_survive'] * table[age]['qx']
+            # Your probability of surviving from x to x+1 given survival til x is just the compliment
+            table[age]['Px_survive']      = 1 - table[age]['qx']
+            # Your cumulative prob of surviving till x+1 is then Cum_prob_sur til x * surviving x to x+1
+            table[age]['Px1_Cum_survive'] = table[age-1]['Px1_Cum_survive'] * table[age]['Px_survive']
+
+            # When the term life is still active
+            if table[age]['age_x'] < anb + term:
+                # EV of benefit is the benefit * P of dying between x & x+1
+                table[age]['E_benefit']   = table[age]['Px_death'] * benefit
+                # Assume benefit is always paid out End of the Year -> start & die at 24 anb, benefit discount 1 yr
+                table[age]['EPV_benefit'] = table[age]['E_benefit'] / (1 + discount) ** (table[age]['age_x'] - anb + 1)
+                table[age]['Premium']     = premium
+                # premium assumed to be paid Start of Year
+                table[age]['PV_premium']  = premium / (1 + discount) ** (table[age]['age_x'] - anb)
+            else:
+                # Life insurance is not active anymore
+                table[age]['E_benefit']   = 0.0
+                table[age]['EPV_benefit'] = 0.0
+                table[age]['Premium']     = 0.0
+                table[age]['PV_premium']  = 0.0
+
+        val['apv'] += table[age]['EPV_benefit']
+        val['ppv'] += table[age]['PV_premium']
+    
+    return table, val
 
 if __name__ == '__main__':
     # main()

@@ -43,7 +43,16 @@
 
     <div>
         <h3>Term Life results</h3>
-        <div>Death P is {{ PdT }}</div>
+        <div>
+            The Actuarial Present Value of this plan is {{ '$' + '%.f' % val.apv }},
+            the present value of the premiums paid is {{ '$' + '%.f' % val.ppv }}.
+        </div>
+        <div>
+            The APV to PPV ratio is: {{ '%.2f' % (val.apv / val.ppv) }} *
+        </div>
+        <div>
+            * The higher the ratio, the better the insurance plan
+        </div>
     </div>
 
     <div class="mb-3 d-flex justify-content-center align-items-center">
@@ -72,17 +81,17 @@
                         <td>{{ row.year }}</td>
                         <td>{{ row.sex }}</td>
                         <td>{{ row.age_x }}</td>
-                        <td>{{ row.qx }}</td>
+                        <td>{{ '%.6f' % row.qx }}</td>
                         <td>{{ row.lx }}</td>
                         <td>{{ row.dx }}</td>
                         <td>{{ row.ex }}</td>
-                        <td>{{ row.Px_death }}</td>
-                        <td>{{ row.Px_survive }}</td>
-                        <td>{{ row.Px1_Cum_survive }}</td>
-                        <td>{{ row.E_benefit }}</td>
-                        <td>{{ row.EPV_benefit }}</td>
-                        <td>{{ row.Premium }}</td>
-                        <td>{{ row.PV_premium }}</td>
+                        <td>{{ '%.6f' % row.Px_death }}</td>
+                        <td>{{ '%.6f' % row.Px_survive }}</td>
+                        <td>{{ '%.6f' % row.Px1_Cum_survive }}</td>
+                        <td>{{ '$' + '%.2f' % row.E_benefit }}</td>
+                        <td>{{ '$' + '%.2f' % row.EPV_benefit }}</td>
+                        <td>{{ '$' + '%.2f' % row.Premium}}</td>
+                        <td>{{ '$' + '%.2f' % row.PV_premium }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
