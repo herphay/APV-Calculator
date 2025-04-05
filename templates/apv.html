@@ -48,7 +48,8 @@
             the present value of the premiums paid is {{ '$' + '%.f' % val.ppv }}.
         </div>
         <div>
-            The APV to PPV ratio is: {{ '%.2f' % (val.apv / val.ppv) }} *
+            The APV to PPV ratio is: {{ '%.2f' % (val.apv / val.ppv) }}  
+            at the discount rate of {{ '%.1f' % ((request.form.get('discount') | float) * 100) }}% *
         </div>
         <div>
             * The higher the ratio, the better the insurance plan
