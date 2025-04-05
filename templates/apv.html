@@ -60,7 +60,7 @@
         <h4>Save this plan for comparison?</h4>
         <form id="saveplan">
             <input type="hidden" id="sterm" value="{{ request.form.get('term') }}">
-            <input autocomplete="off" class="form-control w-auto me-2" name="plan_name" placeholder="Plan Name" type="text">
+            <input autocomplete="off" autofocus class="form-control w-auto me-2" name="plan_name" placeholder="Plan Name" type="text">
             <button class="btn btn-primary" type="submit">Save this plan</button>
         </form>
     </div>
