@@ -170,6 +170,8 @@ def add_plan(plandata):
 
     if plandata['plan'] in existing_plans:
         return 1
+    elif not plandata['plan']:
+        return 2
 
     plandata['year']     = int(plandata['year'])
     plandata['anb']      = int(plandata['anb'])

@@ -72,5 +72,7 @@ def save_plan():
     
     if result == 0:
         return jsonify({'result':"Plan successfully added for comparison"})
-    else:
+    elif result == 1:
         return jsonify({'result':"Plan name already exists"})
+    else:
+        return jsonify({'result':"Plan name cannot be blank"})
