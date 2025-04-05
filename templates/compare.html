@@ -31,6 +31,7 @@
                     <th style="width: 10%;">APV</th>
                     <th style="width: 10%;">PPV</th>
                     <th style="width: 10%; color:orangered;">APV:PPV ratio</th>
+                    <th style="width: 5%;">View Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +48,19 @@
                         <td>{{ '$' + '%.2f' % row.apv }}</td>
                         <td>{{ '$' + '%.2f' % row.ppv }}</td>
                         <td>{{ '%.2f' % row.ratio }}</td>
+                        <td>
+                            <a href="{{ url_for('apv',
+                                        sex=row.sex,
+                                        anb=row.anb,
+                                        term=row.term,
+                                        year=row.year,
+                                        premium=row.premium,
+                                        benefit=row.benefit,
+                                        discount=row.discount) }}"
+                               class="btn btn-sm btn-info">
+                                view
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
