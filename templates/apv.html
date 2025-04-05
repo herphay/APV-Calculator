@@ -58,17 +58,53 @@
 
     {% if table and val %}
     <div>
-        <h4>Save this plan for comparison?</h4>
+        <h3>Save this plan for comparison?</h3>
         <form id="saveplan">
-            <input type="hidden" id="sterm" value="{{ request.form.get('term') }}">
-            <input autocomplete="off" autofocus class="form-control w-auto me-2" name="plan_name" placeholder="Plan Name" type="text">
-            <button class="btn btn-primary" type="submit">Save this plan</button>
+            <div class="mb-3 d-flex justify-content-center align-items-center">
+                {% for key, value in val.items() %}
+                    <input type="hidden" id="{{ key }}" value="{{ value }}">
+                {% endfor %}
+                <input autocomplete="off" autofocus class="form-control w-auto me-2" id="plan" name="plan" placeholder="Plan Name" type="text">
+                <button class="btn btn-primary" type="submit">Save this plan</button>
+            </div>
         </form>
+        <p id="resultbar" style="color: limegreen;"></p>
     </div>
     {% endif %}
 
     <script>
         <!--input async javascript for saving func call-->
+        const saveForm = document.getElementById('saveplan');
+        if (saveForm) {
+            saveForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const saveData = {
+                    plan: document.getElementById('plan').value,
+                    sex: document.getElementById('sex').value,
+                    year: document.getElementById('year').value,
+                    anb: document.getElementById('anb').value, // Be careful with 'Whole Life' vs number
+                    term: document.getElementById('term').value,
+                    benefit: document.getElementById('benefit').value,
+                    discount: document.getElementById('discount').value,
+                    premium: document.getElementById('premium').value,
+                    apv: document.getElementById('apv').value,
+                    ppv: document.getElementById('ppv').value
+                };
+
+                fetch('/save_plan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(saveData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('resultbar').innerHTML = `${data.result}`
+                });
+            });
+        }
     </script>
 
     <div class="mb-3 d-flex justify-content-center align-items-center">

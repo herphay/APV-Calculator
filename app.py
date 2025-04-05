@@ -78,3 +78,9 @@ def tables():
 @app.route("/compare")
 def compare():
     return render_template("compare.html")
+
+@app.route("/save_plan", methods=['POST'])
+def save_plan():
+    data = request.get_json()
+    print(data)
+    return jsonify({'result':"Success"})
