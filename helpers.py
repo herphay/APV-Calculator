@@ -103,7 +103,8 @@ def get_life_table(year, sex):
         table = [{k:v for k, v in zip(cols, row)} for row in res.fetchall()]
         return table
     
-def calc_insurance_value(table, anb, term, benefit, discount, premium):
+def calc_insurance_value(year, sex, anb, term, benefit, discount, premium):
+    table = get_life_table(year, sex)
     val = {'apv': 0, 'ppv': 0}
     for age in range(len(table)):
         if table[age]['age_x'] < anb:
@@ -146,6 +147,8 @@ def calc_insurance_value(table, anb, term, benefit, discount, premium):
         val['apv'] += table[age]['EPV_benefit']
         val['ppv'] += table[age]['PV_premium']
     
+    val['year'] = year
+    val['sex']  = sex
     val['anb'] = anb
     val['term'] = term
     val['benefit'] = benefit
