@@ -5,7 +5,43 @@
 {% endblock %}
 
 {% block main %}
-    <div>
-        <h1>This is the results comparison page</h1>
+    <div class="mx-auto text-justify text-center" style="width: 65%;">
+        <h1>Compare between all the plans you had saved</h1>
+        <p>
+            Reminder that while the key metric to compare on is the APV:PPV ratio, 
+            you will need to consider other metrics too to determine a plan's suitability
+            to your needs. E.g. if you can comfortably afford the premiums, or if the 
+            term matches your liability period.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="mb-3 d-flex justify-content-center align-items-center">
+        <table class="table table-bordered" style="width: 80%;">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">year</th>
+                    <th style="width: 10%;">sex</th>
+                    <th style="width: 10%;">age_x</th>
+                    <th style="width: 10%;">qx</th>
+                    <th style="width: 11%;">lx</th>
+                    <th style="width: 10%;">dx</th>
+                    <th style="width: 10%;">ex</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in plans %}
+                    <tr>
+                        <td>{{ row.year }}</td>
+                        <td>{{ row.sex }}</td>
+                        <td>{{ row.age_x }}</td>
+                        <td>{{ '%.6f' % row.qx }}</td>
+                        <td>{{ row.lx }}</td>
+                        <td>{{ row.dx }}</td>
+                        <td>{{ row.ex }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

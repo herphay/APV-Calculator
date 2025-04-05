@@ -64,7 +64,8 @@ def main():
             discount FLOAT,
             premium FLOAT,
             apv FLOAT,
-            ppv FLOAT
+            ppv FLOAT,
+            ratio FLOAT
             )
     """)
         
@@ -178,11 +179,12 @@ def add_plan(plandata):
     plandata['premium']  = float(plandata['premium'])
     plandata['apv']      = float(plandata['apv'])
     plandata['ppv']      = float(plandata['ppv'])
+    plandata['ratio']    = plandata['apv'] / plandata['ppv']
 
     cur.execute("""
         INSERT INTO plans VALUES (
             :plan, :sex, :year, :anb, :term, :benefit, 
-            :discount, :premium, :apv, :ppv)""", plandata)
+            :discount, :premium, :apv, :ppv, :ratio)""", plandata)
     
     con.commit()
 
@@ -190,6 +192,17 @@ def add_plan(plandata):
     con.close()
 
     return 0
+
+def get_plans():
+    con = sqlite3.connect('lifetables.db')
+    cur = con.cursor()
+
+    cur.execute("SELECT * FROM plans ORDER BY ratio")
+
+    cols = [col[0] for col in cur.description]
+    plans = [{k:v for k, v in zip(cols, row)} for row in cur.fetchall()]
+
+    return plans
 
 if __name__ == '__main__':
     main()

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from helpers import get_available_years, get_life_table, calc_insurance_value, add_plan
+from helpers import get_available_years, get_life_table, calc_insurance_value, add_plan, get_plans
 
 app = Flask(__name__)
 
@@ -67,7 +67,7 @@ def tables():
             render_template("tables.html", years=years)
 
         table = get_life_table(year, sex)
-        msg = f'This is the life table for {sex} for the reference year {year}.'
+        msg = f'This is the life table for {sex} with the reference year {year}.'
 
         return render_template("tables.html", years=years, table=table, msg=msg)
     
@@ -75,7 +75,8 @@ def tables():
 
 @app.route("/compare")
 def compare():
-    return render_template("compare.html")
+    plans = get_plans()
+    return render_template("compare.html", plans=plans)
 
 @app.route("/save_plan", methods=['POST'])
 def save_plan():
