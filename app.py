@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-from helpers import get_available_years, get_life_table, calc_insurance_value, add_plan, get_plans
+from helpers import get_available_years, get_life_table, calc_insurance_value
+from helpers import add_plan, get_plans, get_table_for_apv
 
 app = Flask(__name__)
 
@@ -23,35 +24,18 @@ def apv():
     years.sort()
 
     if request.method == 'POST':
-        sex = request.form.get('sex')
-        anb = request.form.get('anb')
-        term = request.form.get('term')
-        year = request.form.get('year')
-        premium = request.form.get('premium')
-        benefit = request.form.get('benefit')
-        discount = request.form.get('discount')
-
-        if sex not in ['Male', 'Female'] or not anb or not term or \
-           not year or not premium or not benefit or not discount:
-            return render_template("apv.html", years=years, error_msg='Missing input')
-        
-        try:
-            anb, year = int(anb), int(year)
-            premium, benefit, discount = float(premium), float(benefit), float(discount)
-        except ValueError:
-            return render_template("apv.html", years=years, error_msg='Except for sex, input should be numbers')
-        
-        if term == 'Whole Life':
-            term = 101 - anb
+        val, table, error_msg = get_table_for_apv(request.form)
+        if error_msg:
+            return render_template("apv.html", years=years, error_msg=error_msg)
         else:
-            try:
-                term = int(term)
-            except ValueError:
-                return render_template("apv.html", years=years, error_msg='Invalid term duration')
-
-        table, val  = calc_insurance_value(year, sex, anb, term, benefit, discount, premium)
-
-        return render_template("apv.html", years=years, table=table, val=val)
+            return render_template("apv.html", years=years, table=table, val=val)
+    
+    elif request.method == 'GET':
+        val, table, error_msg = get_table_for_apv(request.args)
+        if error_msg:
+            return render_template("apv.html", years=years, error_msg=error_msg)
+        else:
+            return render_template("apv.html", years=years, table=table, val=val)
     
     return render_template("apv.html", years=years)
 

@@ -204,5 +204,36 @@ def get_plans():
 
     return plans
 
+def get_table_for_apv(params):
+    sex = params.get('sex')
+    anb = params.get('anb')
+    term = params.get('term')
+    year = params.get('year')
+    premium = params.get('premium')
+    benefit = params.get('benefit')
+    discount = params.get('discount')
+
+    if sex not in ['Male', 'Female'] or not anb or not term or \
+    not year or not premium or not benefit or not discount:
+        return None, None, 'Missing input'
+    
+    try:
+        anb, year = int(anb), int(year)
+        premium, benefit, discount = float(premium), float(benefit), float(discount)
+    except ValueError:
+        return None, None, 'Except for sex, input should be numbers'
+    
+    if term == 'Whole Life':
+        term = 101 - anb
+    else:
+        try:
+            term = int(term)
+        except ValueError:
+            return None, None, 'Invalid term duration'
+    
+    table, val  = calc_insurance_value(year, sex, anb, term, benefit, discount, premium)
+
+    return val, table, None
+
 if __name__ == '__main__':
     main()
