@@ -125,6 +125,12 @@ def calc_insurance_value(table, anb, term, benefit, discount, premium):
         val['apv'] += table[age]['EPV_benefit']
         val['ppv'] += table[age]['PV_premium']
     
+    val['anb'] = anb
+    val['term'] = term
+    val['benefit'] = benefit
+    val['discount'] = discount
+    val['premium'] = premium
+
     return table, val
 
 if __name__ == '__main__':

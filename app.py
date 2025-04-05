@@ -49,7 +49,9 @@ def apv():
             except ValueError:
                 return render_template("apv.html", years=years, error_msg='Invalid term duration')
 
-        table, val = calc_insurance_value(get_life_table(year, sex), anb, term, benefit, discount, premium)
+        table, val  = calc_insurance_value(get_life_table(year, sex), anb, term, benefit, discount, premium)
+        val['year'] = year
+        val['sex']  = sex
 
         return render_template("apv.html", years=years, table=table, val=val)
     
