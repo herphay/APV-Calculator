@@ -3,10 +3,12 @@ import sqlite3
 
 def main():
     """
-    Main function is used to create a table for lifetable data and insert them into the database.
+    Main function is first used to create a table for lifetable data and insert them into the database.
     Pre-requisit:
         - lifetables sqlite3 database to be created
         - lifetable data to be stored in a csv file named lifetables
+
+    Then it will create another table 'plans' for storage of insurance plans to be compared
     """
     # Start connection to lifetables.db and create cursor object
     connection = sqlite3.connect('lifetables.db')
@@ -49,6 +51,25 @@ def main():
             print('Data insertion error, please check that your datatypes are proepr')
             return 1
         
+    cursor.execute("DROP TABLE IF EXISTS plans")
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS plans (
+            plan TEXT,
+            sex TEXT,
+            year INTEGER,
+            anb INTEGER,
+            term INTEGER,
+            benefit FLOAT,
+            discount FLOAT,
+            premium FLOAT,
+            apv FLOAT,
+            ppv FLOAT
+            )
+    """)
+        
+    connection.commit()
+
     cursor.close()
     connection.close()
 
@@ -134,5 +155,4 @@ def calc_insurance_value(table, anb, term, benefit, discount, premium):
     return table, val
 
 if __name__ == '__main__':
-    # main()
-    pass
+    main()
