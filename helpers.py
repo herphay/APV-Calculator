@@ -79,6 +79,9 @@ def get_available_years():
     """
     with sqlite3.connect('lifetables.db') as con:
         res = con.execute('SELECT DISTINCT year FROM lifetables ORDER BY year')
+
+        # sqlite result is always a list of tuples, where each tuple is the data
+        # for each result row. 
         return [row[0] for row in res.fetchall()]
 
 def get_life_table(year, sex):
@@ -156,6 +159,37 @@ def calc_insurance_value(year, sex, anb, term, benefit, discount, premium):
     val['premium'] = premium
 
     return table, val
+
+def add_plan(plandata):
+    con = sqlite3.connect('lifetables.db')
+    cur = con.cursor()
+
+    existing_plans = cur.execute("SELECT DISTINCT plan FROM plans")
+    existing_plans = [row[0] for row in existing_plans.fetchall()]
+
+    if plandata['plan'] in existing_plans:
+        return 1
+
+    plandata['year']     = int(plandata['year'])
+    plandata['anb']      = int(plandata['anb'])
+    plandata['term']     = int(plandata['term'])
+    plandata['benefit']  = float(plandata['benefit'])
+    plandata['discount'] = float(plandata['discount'])
+    plandata['premium']  = float(plandata['premium'])
+    plandata['apv']      = float(plandata['apv'])
+    plandata['ppv']      = float(plandata['ppv'])
+
+    cur.execute("""
+        INSERT INTO plans VALUES (
+            :plan, :sex, :year, :anb, :term, :benefit, 
+            :discount, :premium, :apv, :ppv)""", plandata)
+    
+    con.commit()
+
+    cur.close()
+    con.close()
+
+    return 0
 
 if __name__ == '__main__':
     main()

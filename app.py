@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from helpers import get_available_years, get_life_table, calc_insurance_value
+from helpers import get_available_years, get_life_table, calc_insurance_value, add_plan
 
 app = Flask(__name__)
 
@@ -80,5 +80,12 @@ def compare():
 @app.route("/save_plan", methods=['POST'])
 def save_plan():
     data = request.get_json()
-    print(data)
-    return jsonify({'result':"Success"})
+    try:
+        result = add_plan(data)
+    except:
+        return jsonify({'result':"Failed to add plan"})
+    
+    if result == 0:
+        return jsonify({'result':"Plan successfully added for comparison"})
+    else:
+        return jsonify({'result':"Plan name already exists"})
