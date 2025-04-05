@@ -41,6 +41,7 @@
     </div>
     <div>{{ error_msg }}</div>
 
+    {% if table and val %}
     <div>
         <h3>Term Life results</h3>
         <div>
@@ -54,9 +55,20 @@
         <div>
             * The higher the ratio, the better the insurance plan
         </div>
+        <p></p>
+        <div>
+            Metrics used: <br>
+            Life table year: {{ val.year }} || 
+            Insured sex: {{ val.sex }} ||
+            Age next birthday: {{ val.anb }} ||
+            Insurance term: {{ val.term }} ||
+            <br>
+            Death benefit: ${{ '%.2f' % val.benefit }} ||
+            Discount rate: {{ val.discount }} ||
+            Yearly premium: ${{ '%.2f' % val.premium }}
+        </div>
     </div>
 
-    {% if table and val %}
     <div>
         <h3>Save this plan for comparison?</h3>
         <form id="saveplan">
