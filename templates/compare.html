@@ -17,28 +17,36 @@
     <p></p>
 
     <div class="mb-3 d-flex justify-content-center align-items-center">
-        <table class="table table-bordered" style="width: 80%;">
+        <table class="table table-bordered" style="width: 90%;">
             <thead>
                 <tr>
-                    <th style="width: 10%;">year</th>
+                    <th style="width: 10%;">Plan Name</th>
+                    <th style="width: 10%;">Life table year</th>
                     <th style="width: 10%;">sex</th>
-                    <th style="width: 10%;">age_x</th>
-                    <th style="width: 10%;">qx</th>
-                    <th style="width: 11%;">lx</th>
-                    <th style="width: 10%;">dx</th>
-                    <th style="width: 10%;">ex</th>
+                    <th style="width: 10%;">Age next birthday</th>
+                    <th style="width: 10%;">Term (years)</th>
+                    <th style="width: 11%;">Death benefit</th>
+                    <th style="width: 10%;">Yearly premium</th>
+                    <th style="width: 10%;">Discount rate</th>
+                    <th style="width: 10%;">APV</th>
+                    <th style="width: 10%;">PPV</th>
+                    <th style="width: 10%;">APV:PPV ratio</th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in plans %}
                     <tr>
+                        <td>{{ row.plan }}</td>
                         <td>{{ row.year }}</td>
                         <td>{{ row.sex }}</td>
-                        <td>{{ row.age_x }}</td>
-                        <td>{{ '%.6f' % row.qx }}</td>
-                        <td>{{ row.lx }}</td>
-                        <td>{{ row.dx }}</td>
-                        <td>{{ row.ex }}</td>
+                        <td>{{ row.anb }}</td>
+                        <td>{{ row.term }}</td>
+                        <td>{{ '$' + '%.2f' % row.benefit }}</td>
+                        <td>{{ '$' + '%.2f' % row.premium }}</td>
+                        <td>{{ row.discount }}</td>
+                        <td>{{ '$' + '%.2f' % row.apv }}</td>
+                        <td>{{ '$' + '%.2f' % row.ppv }}</td>
+                        <td>{{ '%.2f' % row.ratio }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
