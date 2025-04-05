@@ -197,7 +197,7 @@ def get_plans():
     con = sqlite3.connect('lifetables.db')
     cur = con.cursor()
 
-    cur.execute("SELECT * FROM plans ORDER BY ratio")
+    cur.execute("SELECT * FROM plans ORDER BY ratio DESC")
 
     cols = [col[0] for col in cur.description]
     plans = [{k:v for k, v in zip(cols, row)} for row in cur.fetchall()]
