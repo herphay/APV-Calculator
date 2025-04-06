@@ -1,5 +1,5 @@
 # Actuarial Present Value Calculator by Lim Her Phay
-#### Video Demo: 
+#### Video Demo: https://youtu.be/7XCx8wLmAZ8
 
 ## Project motivation
 This project was ported over from a Google Sheets calculator I implemented previously for Actuarial Present Value (APV) calculations for personal insurance comparison purposes. The key problem faced by me, and I believe other consumers, is that we cannot properly value and compare between different life insurance policies. A common question is do you buy whole life insurance, or a term life that covers you up to a certain age? If you do buy term, to what age do you cover? These and other such questions plague us and insurance agents have no incentive to provide a clear answer, and at least in Singapore, they almost certainly have no training to provide a quantitative based answer.
